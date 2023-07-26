@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Entity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace IOC
 {
@@ -8,10 +11,10 @@ namespace IOC
 
         public static void InyectarDependencia(this IServiceCollection services, IConfiguration Configuration)
         {
-            //services.AddDbContext<PolarisServerContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("CadenaSQL"));
-            //});
+            services.AddDbContext<ProyectosContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"));
+            });
 
             //services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
