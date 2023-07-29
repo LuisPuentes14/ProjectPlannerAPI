@@ -1,21 +1,24 @@
 ﻿
+using API.Models.RequestModels;
 using AutoMapper;
+using Entity;
+using System.Globalization;
+using System.Net.Sockets;
 
-
-namespace Api.Utilidades.AutoMapper
+namespace Api.Utilidades._AutoMapper
 {
-    public class AutoMapperProfile : Profile
+    public class AutoMapperProfile : AutoMapper.Profile
     {
 
         public AutoMapperProfile()
         {
 
-           // #region Login
-            ////Objeto Destino / Objeto origen
-            //CreateMap<VMUsuarioLogin, Usuario>();
+            #region Login
+            //Objeto origen /Objeto Destino  
+            CreateMap<RMLogin, User>();
             //CreateMap<Usuario, VMUsuarioLogin>();
 
-            //#endregion
+            #endregion
 
 
             //#region menu
@@ -52,7 +55,7 @@ namespace Api.Utilidades.AutoMapper
             ////Objeto Destino / Objeto origen
             //CreateMap<VMTipoModulo, TipoModulo>();
             //CreateMap<TipoModulo, VMTipoModulo>();
-              
+
             //#endregion
 
             //#region Modulos Web
@@ -124,7 +127,7 @@ namespace Api.Utilidades.AutoMapper
             //#region Log
             ////Objeto Destino / Objeto origen
             //CreateMap<Log, VMLog>();
-               
+
             ////Objeto Destino / Objeto origen
             //CreateMap<VMLog, Log>().ReverseMap()
             //    .ForMember(destino =>
@@ -161,7 +164,7 @@ namespace Api.Utilidades.AutoMapper
             //CreateMap<CPU, VMCPU>().ReverseMap();
             //#endregion
 
-           
+
         }
     }
 
