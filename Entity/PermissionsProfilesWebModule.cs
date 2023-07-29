@@ -20,4 +20,8 @@ public partial class PermissionsProfilesWebModule
     public bool? PermissionProfileWebModuleDelete { get; set; }
 
     public bool? PermissionProfileWebModuleDownload { get; set; }
+
+    public virtual Profile Profile { get; set; } = null!;
+
+    public virtual WebModule WebModule { get; set; } = null!;
 }

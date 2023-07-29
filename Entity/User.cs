@@ -7,15 +7,35 @@ public partial class User
 {
     public int UserId { get; set; }
 
-    public string? UserName { get; set; }
+    public string UserName { get; set; } = null!;
 
     public string UserEmail { get; set; } = null!;
+
+    public string UserLogin { get; set; } = null!;
+
+    public string UserPassword { get; set; } = null!;
+
+    public int UserStateId { get; set; }
+
+    public DateTime? UserDateExpPassword { get; set; }
+
+    public DateTime? UserDateCreate { get; set; }
+
+    public DateTime? UserDateUpdate { get; set; }
+
+    public int? UserAttempts { get; set; }
+
+    public bool? UserFirstLogin { get; set; }
 
     public virtual ICollection<Project> ProjectProjectDirectBossNavigations { get; set; } = new List<Project>();
 
     public virtual ICollection<Project> ProjectProjectImmediateBossNavigations { get; set; } = new List<Project>();
 
-    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
+    public virtual ICollection<ProjectsUser> ProjectsUsers { get; set; } = new List<ProjectsUser>();
 
-    public virtual ICollection<ProjectTask> Tasks { get; set; } = new List<ProjectTask>();
+    public virtual ICollection<TasksUser> TasksUsers { get; set; } = new List<TasksUser>();
+
+    public virtual ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
+
+    public virtual UserState UserState { get; set; } = null!;
 }

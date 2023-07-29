@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\RequestModels\**" />
-    <Content Remove="Models\RequestModels\**" />
-    <EmbeddedResource Remove="Models\RequestModels\**" />
-    <None Remove="Models\RequestModels\**" />
+    <Compile Remove="Models\RquestModels\**" />
+    <Content Remove="Models\RquestModels\**" />
+    <EmbeddedResource Remove="Models\RquestModels\**" />
+    <None Remove="Models\RquestModels\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\RquestModels\" />
+    <Folder Include="Models\RequestModels\" />
   </ItemGroup>
 
 </Project>

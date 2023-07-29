@@ -9,5 +9,7 @@ public partial class Profile
 
     public string? ProfileName { get; set; }
 
+    public virtual ICollection<PermissionsProfilesWebModule> PermissionsProfilesWebModules { get; set; } = new List<PermissionsProfilesWebModule>();
+
     public virtual ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
 }

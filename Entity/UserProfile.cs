@@ -13,5 +13,5 @@ public partial class UserProfile
 
     public virtual Profile? Profile { get; set; }
 
-    public virtual Usersa? User { get; set; }
+    public virtual User? User { get; set; }
 }

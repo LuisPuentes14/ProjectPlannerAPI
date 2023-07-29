@@ -27,5 +27,5 @@ public partial class Project
 
     public virtual ICollection<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
 
-    public virtual ICollection<User> ProjectUsers { get; set; } = new List<User>();
+    public virtual ICollection<ProjectsUser> ProjectsUsers { get; set; } = new List<ProjectsUser>();
 }

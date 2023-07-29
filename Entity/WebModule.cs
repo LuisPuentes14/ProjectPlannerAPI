@@ -23,5 +23,7 @@ public partial class WebModule
 
     public DateTime? WebModuleCreateDate { get; set; }
 
+    public virtual ICollection<PermissionsProfilesWebModule> PermissionsProfilesWebModules { get; set; } = new List<PermissionsProfilesWebModule>();
+
     public virtual TypesModule? TypeModule { get; set; }
 }

@@ -9,5 +9,5 @@ public partial class UserState
 
     public string? UserStateName { get; set; }
 
-    public virtual ICollection<Usersa> Usersas { get; set; } = new List<Usersa>();
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }
