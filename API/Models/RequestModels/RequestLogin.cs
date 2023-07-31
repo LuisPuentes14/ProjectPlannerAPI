@@ -2,15 +2,13 @@
 
 namespace API.Models.RequestModels
 {
-    public class RMLogin
+    public class RequestLogin
     {
         [Required]
         public string UserEmail { get; set; } = null!;
 
         [Required]
-        public string UserPassword { get; set; } = null!; 
+        public string UserPassword { get; set; } = null!;      
         
-
-
     }
 }

@@ -1,39 +1,53 @@
-﻿using DAL.Interfaces;
-using Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Entity;
 using BLL.Interfaces;
 
 namespace BLL.Implementacion
 {
-    public class ServiceLogin: IServiceLogin
+    public class ServiceLogin : IServiceLogin
     {
-        private readonly IGenericRepository<User> _repositorio;
 
+        private readonly ProjectPlannerContext _dbContext;
 
-        public ServiceLogin(IGenericRepository<User> repositorio)
+        public ServiceLogin(ProjectPlannerContext dbContext)
         {
-            _repositorio = repositorio;
+            _dbContext = dbContext;
         }
 
-        public async Task<User> Login(User in_user)
+        public User Login(User in_user, out List<string> Out_userProfile)
         {
-            try
-            {
-                User user = await _repositorio.Obtener(u => u.UserEmail == in_user.UserEmail && u.UserPassword == in_user.UserPassword);
-                return user;
+            User user = new User();
 
-            }
-            catch (Exception ex)
+            user = _dbContext.Users.Where(u => u.UserEmail == in_user.UserEmail).FirstOrDefault();
+
+
+            if (user == null)
             {
-                var jj = ex.Message;
-                throw;
+                throw new Exception("Usuario no econtrado.");
             }
-           
+
+            user = _dbContext.Users.Where(u => u.UserEmail == in_user.UserEmail && u.UserPassword == in_user.UserPassword).FirstOrDefault();
+
+            if (user == null)
+            {
+                throw new Exception("Contraseña incorrecta.");
+            }
+
+            List<int?> userProfileIds = _dbContext.UserProfiles.Where(p => p.UserId == user.UserId).Select(p => p.ProfileId).ToList();
+
+            if (userProfileIds.Count == 0)
+            {
+                throw new Exception("Perfiles no encontrados para este usuario.");
+            }
+
+            List<string> profiles = _dbContext.Profiles.Where(p => userProfileIds.Contains(p.ProfileId)).Select(p => p.ProfileName).ToList();
+
+            Out_userProfile = profiles;
+
+            return user;
+
         }
+
+
 
 
     }

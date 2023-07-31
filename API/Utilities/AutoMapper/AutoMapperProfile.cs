@@ -15,7 +15,7 @@ namespace Api.Utilidades._AutoMapper
 
             #region Login
             //Objeto origen /Objeto Destino  
-            CreateMap<RMLogin, User>();
+            CreateMap<RequestLogin, User>();
             //CreateMap<Usuario, VMUsuarioLogin>();
 
             #endregion
