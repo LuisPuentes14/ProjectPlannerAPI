@@ -13,16 +13,10 @@ string MiCors = "MiCors";
 
 builder.Services.AddControllers();
 
-var appSettingsSection = builder.Configuration.GetSection("AppSettings");
-builder.Services.Configure<AppSettings>(appSettingsSection);
-
 //JWT
-
-var appSettings = appSettingsSection.Get<AppSettings>();
-
-var Issuer = appSettings.Issuer;
-var Audience = appSettings.Audience;
-var SecretKey = Encoding.ASCII.GetBytes(appSettings.Secret);
+var Issuer = builder.Configuration["AppSettings:Issuer"];
+var Audience = builder.Configuration["AppSettings:Audience"];
+var SecretKey = Encoding.ASCII.GetBytes(builder.Configuration["AppSettings:Secret"]);
 
 
 builder.Services.AddAuthentication(d =>

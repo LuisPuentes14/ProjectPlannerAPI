@@ -9,6 +9,6 @@ namespace BLL.Interfaces
 {
     public interface IServiceLogin
     {
-        User Login(User user, out List<string> Out_userProfile);
+        Task<string> Login(User user);
     }
 }

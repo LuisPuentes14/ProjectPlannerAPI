@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Api\**" />
     <Compile Remove="Models\RquestModels\**" />
+    <Content Remove="Api\**" />
     <Content Remove="Models\RquestModels\**" />
+    <EmbeddedResource Remove="Api\**" />
     <EmbeddedResource Remove="Models\RquestModels\**" />
+    <None Remove="Api\**" />
     <None Remove="Models\RquestModels\**" />
   </ItemGroup>
 
@@ -23,10 +27,6 @@
     <ProjectReference Include="..\BLL\BLL.csproj" />
     <ProjectReference Include="..\Entity\Entity.csproj" />
     <ProjectReference Include="..\IOC\IOC.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Api\Utilidades\AutoMapper\" />
   </ItemGroup>
 
 </Project>
