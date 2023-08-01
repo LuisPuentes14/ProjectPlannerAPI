@@ -58,6 +58,8 @@ namespace API.Controllers
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
+                    Audience = _appSettings.Audience,
+                    Issuer = _appSettings.Issuer,
                     Subject = new ClaimsIdentity(claims),
                     Expires = DateTime.UtcNow.AddMonths(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

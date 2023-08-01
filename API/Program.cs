@@ -19,7 +19,11 @@ builder.Services.Configure<AppSettings>(appSettingsSection);
 //JWT
 
 var appSettings = appSettingsSection.Get<AppSettings>();
-var llave = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+var Issuer = appSettings.Issuer;
+var Audience = appSettings.Audience;
+var SecretKey = Encoding.ASCII.GetBytes(appSettings.Secret);
+
 
 builder.Services.AddAuthentication(d =>
 {
@@ -32,12 +36,13 @@ builder.Services.AddAuthentication(d =>
     d.SaveToken = true;
     d.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
-
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(llave),
-        ValidateIssuer = false,
-        ValidateAudience = false
-
+        IssuerSigningKey = new SymmetricSecurityKey(SecretKey),
+        ValidateIssuer = true,
+        ValidIssuer = Issuer,
+        ValidateAudience = true,
+        ValidAudience = Audience,
+        ValidateLifetime = true,
     };
 });
 
