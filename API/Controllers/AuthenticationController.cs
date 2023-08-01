@@ -33,6 +33,7 @@ namespace API.Controllers
 
 
         [HttpPost]
+        [Route("Login")]
         public async Task<IActionResult> Login([FromBody] RequestLogin rMLogin)
         {
             GenericResponse<ResponseLogin> gResponse = new GenericResponse<ResponseLogin>();
@@ -58,7 +59,7 @@ namespace API.Controllers
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.UtcNow.AddDays(60),
+                    Expires = DateTime.UtcNow.AddMonths(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 
                 };
@@ -66,15 +67,17 @@ namespace API.Controllers
                 var token = tokenHandler.CreateToken(tokenDescriptor);               
                 ResponseLogin responseLogin = new ResponseLogin() { Token = tokenHandler.WriteToken(token) };
 
-                gResponse.Estado = true;
-                gResponse.Objeto = responseLogin;
+                gResponse.Status = true;
+                gResponse.Object = responseLogin;
 
                 return StatusCode(StatusCodes.Status200OK, gResponse);
 
             }
             catch (Exception ex)
-            {
-                gResponse.Mensaje = ex.Message;
+
+            {             
+                
+                gResponse.Message = ex.Message;
                 return StatusCode(StatusCodes.Status200OK, gResponse);
             }
 
