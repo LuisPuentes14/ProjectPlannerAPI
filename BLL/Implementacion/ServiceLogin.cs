@@ -58,5 +58,7 @@ namespace BLL.Implementacion
             return JWT.generateToken(user, profiles, SecretKey, Audience, Issuer, Convert.ToInt32(timeMinutes));
 
         }
+
+
     }
 }
