@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using IOC;
+using BLL.ModelsAppsettings;
+using Microsoft.Extensions.Configuration;
+using BLL.Utilities.Implementacion;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +15,23 @@ string MiCors = "MiCors";
 
 builder.Services.AddControllers();
 
-//JWT
+
+//Se asigna parametros del appsettings.json en la clases de la
+//paca negocio para obtener los parametros
+//-------------------------------------------------------------------
+
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.Configure<BLL.ModelsAppsettings.Login>(builder.Configuration.GetSection("Login"));
+builder.Services.Configure<ResetPassword>(builder.Configuration.GetSection("ResetPassword"));
+builder.Services.Configure<SMTP>(builder.Configuration.GetSection("SMTP"));
+
+
+
+//se configura autenticacion por JWT
+//-------------------------------------------------------------------
 var Issuer = builder.Configuration["AppSettings:Issuer"];
 var Audience = builder.Configuration["AppSettings:Audience"];
 var SecretKey = Encoding.ASCII.GetBytes(builder.Configuration["AppSettings:Secret"]);
-
 
 builder.Services.AddAuthentication(d =>
 {

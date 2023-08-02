@@ -1,4 +1,7 @@
-﻿using Entity;
+﻿using BLL.ModelsAppsettings;
+using BLL.Utilities.Interfaces;
+using Entity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -9,16 +12,24 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace BLL.Utilities
+namespace BLL.Utilities.Implementacion
 {
-    public class JWT
+    public class JWT: IJWT
     {
-        public static string generateToken(User in_user, List<string> in_userProfiles, string in_secret, string in_audience, string in_issuer, int in_timeLifeMinutes) {
+        private readonly AppSettings _appSettings;
+
+        public JWT(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings.Value;
+        }
+
+        public string generateToken(User in_user, List<string> in_userProfiles, int in_timeLifeMinutes)
+        {
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(in_secret);
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
-           
+
 
 
             List<Claim> claims = new List<Claim>() {
@@ -30,8 +41,8 @@ namespace BLL.Utilities
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Audience = in_audience,
-                Issuer = in_issuer,
+                Audience = _appSettings.Audience,
+                Issuer = _appSettings.Issuer,
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(in_timeLifeMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
