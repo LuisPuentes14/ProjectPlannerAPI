@@ -16,35 +16,29 @@ namespace BLL.Utilities
 
             bool sendEmail = false;
 
-            try
+           // string testemail = "alejandroangel148@gmail.com";
+            string testemail = "sanchezalvarez124@gmail.com";
+
+
+            MailMessage mail = new MailMessage();
+            mail.To.Add(testemail);
+            mail.From = new MailAddress("alejandroangel148@gmail.com");
+            mail.Subject = in_affair;
+            mail.Body = in_message;
+            mail.IsBodyHtml = true;
+
+            var smtp = new SmtpClient()
             {
-                MailMessage mail = new MailMessage();
-                mail.To.Add(in_email);
-                mail.From = new MailAddress("alejandroangel148@gmail.com");
-                mail.Subject = in_affair;
-                mail.Body = in_message;
-                mail.IsBodyHtml = true;
+                Credentials = new NetworkCredential("alejandroangel148@gmail.com", "rezrythzhkfcgykd"),
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+            };
 
-                var smtp = new SmtpClient()
-                {
-                    Credentials = new NetworkCredential("alejandroangel148@gmail.com", "rezrythzhkfcgykd"),
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    EnableSsl = true,
-                };
+            smtp.Send(mail);
+            sendEmail = true;
 
-                smtp.Send(mail);
-                sendEmail = true;
-
-                return sendEmail;
-
-            }
-            catch
-            {
-                return sendEmail;
-            }
-
-            
+            return sendEmail;
 
         }
     }

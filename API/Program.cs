@@ -1,7 +1,6 @@
 using Api.Utilidades._AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Api.Models.Configurations;
 using System.Text;
 using IOC;
 

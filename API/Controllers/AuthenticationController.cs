@@ -1,5 +1,4 @@
-﻿using Api.Models.Configurations;
-using Api.Utilities.Encrypt;
+﻿using Api.Utilities.Encrypt;
 using API.Models.RequestModels;
 using API.Models.Response;
 using API.Models.ResponseModels;
@@ -21,9 +20,9 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IMapper _mapper;
-        public readonly IServiceLogin _serviceLogin;
+        public readonly IServiceAuthentication _serviceLogin;
 
-        public AuthenticationController(IServiceLogin serviceLogin, IMapper mapper)
+        public AuthenticationController(IServiceAuthentication serviceLogin, IMapper mapper)
         {
             _serviceLogin = serviceLogin;
             _mapper = mapper;           
@@ -50,6 +49,31 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {            
+                gResponse.Message = ex.Message;
+                return StatusCode(StatusCodes.Status200OK, gResponse);
+            }
+        }
+
+        [HttpPost]
+        [Route("SendEmailResetPassword")]
+        public async Task<IActionResult> SendEmailResetPassword([FromBody] RequestResetPassword resetPassword)
+        {
+            GenericResponse<string> gResponse = new GenericResponse<string>();
+
+            try
+            {
+                gResponse.Message = "No se envio el correo";
+
+                if (await _serviceLogin.SendEmailResetPassword(_mapper.Map<User>(resetPassword))) {
+                    gResponse.Status=true;
+                    gResponse.Message = "Corre enviado exitosa mente.";
+                }
+
+                return StatusCode(StatusCodes.Status200OK, gResponse);
+
+            }
+            catch (Exception ex)
+            {
                 gResponse.Message = ex.Message;
                 return StatusCode(StatusCodes.Status200OK, gResponse);
             }

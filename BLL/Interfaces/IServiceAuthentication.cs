@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IServiceLogin
+    public interface IServiceAuthentication
     {
         Task<string> Login(User user);
+        Task<bool> SendEmailResetPassword(User in_user);
     }
 }

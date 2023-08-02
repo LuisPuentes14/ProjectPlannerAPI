@@ -24,8 +24,9 @@ namespace IOC
 
 
             // Inyeccion de dependencias
-            services.AddScoped<IServiceLogin, ServiceLogin>();
-            
+            services.AddScoped<IServiceAuthentication, ServiceAuthentication>(); 
+
+
         }
 
     }

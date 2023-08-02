@@ -13,6 +13,13 @@ namespace Api.Utilidades._AutoMapper
         public AutoMapperProfile()
         {
 
+            #region ResetPassword
+            //Objeto origen /Objeto Destino  
+            CreateMap<RequestResetPassword, User>();
+            //CreateMap<Usuario, VMUsuarioLogin>();
+
+            #endregion
+
             #region Login
             //Objeto origen /Objeto Destino  
             CreateMap<RequestLogin, User>();
