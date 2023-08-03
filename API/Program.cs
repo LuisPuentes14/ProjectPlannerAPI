@@ -40,8 +40,8 @@ builder.Services.AddAuthentication(d =>
 
 }).AddJwtBearer(d => {
 
-    d.RequireHttpsMetadata = false;
-    d.SaveToken = true;
+    //d.RequireHttpsMetadata = false;
+    //d.SaveToken = false;
     d.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
@@ -50,7 +50,7 @@ builder.Services.AddAuthentication(d =>
         ValidIssuer = Issuer,
         ValidateAudience = true,
         ValidAudience = Audience,
-        ValidateLifetime = true,
+       // ValidateLifetime = true,
     };
 });
 

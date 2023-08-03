@@ -15,7 +15,7 @@ namespace Api.Utilidades._AutoMapper
 
             #region ResetPassword
             //Objeto origen /Objeto Destino  
-            CreateMap<RequestResetPassword, User>();
+            CreateMap<RequestSendEmailResetPassword, User>();
             //CreateMap<Usuario, VMUsuarioLogin>();
 
             #endregion

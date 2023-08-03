@@ -7,6 +7,5 @@
         public TObjet? Object { get; set; }
         public List<TObjet>? ListObject { get; set; }
 
-
     }
 }

@@ -37,12 +37,22 @@ namespace BLL.Utilities.Implementacion
                          new Claim(ClaimTypes.Role, JsonSerializer.Serialize(in_userProfiles))
             };
 
+            var ff = DateTime.Now;
+
+            // Fecha de emisión del token (ahora)
+            DateTime issuedAt = DateTime.UtcNow;
+
+            // Fecha de expiración del token (por ejemplo, 1 hora después de la emisión)
+            DateTime expiresAt = issuedAt.AddMinutes(in_timeLifeMinutes);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Audience = _appSettings.Audience,
                 Issuer = _appSettings.Issuer,
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(in_timeLifeMinutes),
+                NotBefore = issuedAt,
+               // Expires = DateTime.UtcNow.AddMinutes(in_timeLifeMinutes),
+                Expires = expiresAt,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

@@ -2,7 +2,7 @@
 
 namespace API.Models.RequestModels
 {
-    public class RequestResetPassword
+    public class RequestSendEmailResetPassword
     {
         [Required]
         public string UserEmail { get; set; } = string.Empty;

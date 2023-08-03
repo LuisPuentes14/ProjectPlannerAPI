@@ -4,6 +4,8 @@ using API.Models.ResponseModels;
 using AutoMapper;
 using BLL.Interfaces;
 using Entity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -49,7 +51,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("SendEmailResetPassword")]
-        public async Task<IActionResult> SendEmailResetPassword([FromBody] RequestResetPassword resetPassword)
+        public async Task<IActionResult> SendEmailResetPassword([FromBody] RequestSendEmailResetPassword resetPassword)
         {
             GenericResponse<string> gResponse = new GenericResponse<string>();
 
@@ -67,6 +69,14 @@ namespace API.Controllers
                 gResponse.Message = ex.Message;
                 return StatusCode(StatusCodes.Status200OK, gResponse);
             }
+        }
+
+        [HttpPost]
+        [Route("ResetPassword")]
+        [Authorize]
+        public async Task<IActionResult> ResetPassword()
+        {
+            return Ok("Contraseña actualizada correctamente.");
         }
     }
 }
