@@ -17,21 +17,23 @@ namespace BLL.Implementacion
         private readonly BLL.ModelsAppsettings.Login _login;
         private readonly ResetPassword _resetPassword;
         private readonly IEmail _IEmail;
+        private readonly IJWT _IJWT;
 
 
         public ServiceAuthentication(
             ProjectPlannerContext dbContext,
             IConfiguration configuration,
-             IEmail IEmail,
+            IEmail IEmail,
             IOptions<AppSettings> appSettings,
             IOptions<BLL.ModelsAppsettings.Login> login, 
-            IOptions<ResetPassword> resetPassword  )
+            IOptions<ResetPassword> resetPassword, IJWT IJWT)
         {
             _dbContext = dbContext;           
             _appSettings = appSettings.Value;
             _login = login.Value;
             _resetPassword = resetPassword.Value;
             _IEmail = IEmail;
+            _IJWT = IJWT;
         }
 
         public async Task<string> Login(User in_user)
@@ -70,12 +72,9 @@ namespace BLL.Implementacion
                 p => userProfileIds.Contains(p.ProfileId)).Select(p => p.ProfileName).ToListAsync();
                  
 
-            return JWT.generateToken(
+            return _IJWT.generateToken(
                 user,
-                profiles,
-                _appSettings.Secret,
-                _appSettings.Audience,
-                _appSettings.Issuer, 
+                profiles,              
                 _login.TokenDurationMinutes);
 
         }
@@ -106,12 +105,9 @@ namespace BLL.Implementacion
 
             string affair = "Recuperar contraseña.";
 
-            string token = JWT.generateToken(
+            string token = _IJWT.generateToken(
                 user,
-                profiles,
-                _appSettings.Secret,
-                _appSettings.Audience,
-                _appSettings.Issuer,
+                profiles,               
                 _resetPassword.TokenDurationMinutes); 
 
             string message = $"<p>Hola: {user.UserName},Has solcitado Restablecer tu Password.</p>\r\n    " +

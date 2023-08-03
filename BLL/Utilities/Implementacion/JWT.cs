@@ -30,8 +30,6 @@ namespace BLL.Utilities.Implementacion
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
 
-
-
             List<Claim> claims = new List<Claim>() {
                 new Claim(ClaimTypes.NameIdentifier,in_user.UserId.ToString() ),
                 new Claim(ClaimTypes.Email, in_user.UserEmail ),

@@ -9,6 +9,6 @@ namespace BLL.Utilities.Interfaces
 {
     public interface IJWT
     {
-        string generateToken(User in_user, List<string> in_userProfiles, int in_timeLifeMinutes)
+        string generateToken(User in_user, List<string> in_userProfiles, int in_timeLifeMinutes);
     }
 }

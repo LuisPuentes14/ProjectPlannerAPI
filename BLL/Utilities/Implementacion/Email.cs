@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BLL.Utilities.Interfaces;
 using Microsoft.Extensions.Options;
-using BLL.ModelsAppsettings.Implementacion;
+using BLL.ModelsAppsettings;
 
 namespace BLL.Utilities.Implementacion
 {

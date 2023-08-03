@@ -29,6 +29,7 @@ namespace IOC
             // Segregación de interfaces           
             services.AddScoped<IServiceAuthentication, ServiceAuthentication>(); 
             services.AddScoped<IEmail, Email>(); 
+            services.AddScoped<IJWT, JWT>();
 
 
         }
