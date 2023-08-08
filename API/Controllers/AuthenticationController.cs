@@ -74,9 +74,13 @@ namespace API.Controllers
         [HttpPost]
         [Route("ResetPassword")]
         [Authorize]
-        public async Task<IActionResult> ResetPassword()
+        public async Task<IActionResult> ResetPassword([FromBody] RequestResetPassword requestResetPassword)
         {
             return Ok("Contraseña actualizada correctamente.");
         }
+
+        
+
+
     }
 }
