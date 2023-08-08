@@ -3,6 +3,7 @@ using API.Models.Response;
 using API.Models.ResponseModels;
 using AutoMapper;
 using BLL.Interfaces;
+using BLL.ModelsAppsettings;
 using Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -76,7 +77,23 @@ namespace API.Controllers
         [Authorize]
         public async Task<IActionResult> ResetPassword([FromBody] RequestResetPassword requestResetPassword)
         {
-            return Ok("Contraseña actualizada correctamente.");
+            GenericResponse<string> gResponse = new GenericResponse<string>();
+
+            try
+            {
+                gResponse.Status = true;
+                gResponse.Message = "Contraseña actualizada correctamente.";
+
+                return StatusCode(StatusCodes.Status200OK, gResponse);
+
+            }
+            catch (Exception ex)
+            {
+                gResponse.Message = ex.Message;
+                return StatusCode(StatusCodes.Status200OK, gResponse);
+            }
+
+
         }
 
         
