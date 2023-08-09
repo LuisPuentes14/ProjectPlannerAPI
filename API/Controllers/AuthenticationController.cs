@@ -3,11 +3,10 @@ using API.Models.Response;
 using API.Models.ResponseModels;
 using AutoMapper;
 using BLL.Interfaces;
-using BLL.ModelsAppsettings;
 using Entity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -80,7 +79,11 @@ namespace API.Controllers
             GenericResponse<string> gResponse = new GenericResponse<string>();
 
             try
-            {
+            {               
+                var userEmailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                await _serviceLogin.ResetPassword(userEmailClaim, requestResetPassword.UserPassword);
+
                 gResponse.Status = true;
                 gResponse.Message = "Contraseña actualizada correctamente.";
 

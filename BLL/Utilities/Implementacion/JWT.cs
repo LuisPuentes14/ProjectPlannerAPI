@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Utilities.Implementacion
 {
-    public class JWT: IJWT
+    public class JWT : IJWT
     {
         private readonly AppSettings _appSettings;
 
@@ -34,25 +34,15 @@ namespace BLL.Utilities.Implementacion
                 new Claim(ClaimTypes.NameIdentifier,in_user.UserId.ToString() ),
                 new Claim(ClaimTypes.Email, in_user.UserEmail ),
                 new Claim(ClaimTypes.Name, in_user.UserName ),
-                         new Claim(ClaimTypes.Role, JsonSerializer.Serialize(in_userProfiles))
+                new Claim(ClaimTypes.Role, JsonSerializer.Serialize(in_userProfiles))
             };
-
-            var ff = DateTime.Now;
-
-            // Fecha de emisión del token (ahora)
-            DateTime issuedAt = DateTime.UtcNow;
-
-            // Fecha de expiración del token (por ejemplo, 1 hora después de la emisión)
-            DateTime expiresAt = issuedAt.AddMinutes(in_timeLifeMinutes);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Audience = _appSettings.Audience,
                 Issuer = _appSettings.Issuer,
                 Subject = new ClaimsIdentity(claims),
-                NotBefore = issuedAt,
-               // Expires = DateTime.UtcNow.AddMinutes(in_timeLifeMinutes),
-                Expires = expiresAt,
+                Expires = DateTime.UtcNow.AddMinutes(in_timeLifeMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

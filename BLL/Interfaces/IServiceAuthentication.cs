@@ -1,9 +1,4 @@
 ﻿using Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
@@ -11,5 +6,6 @@ namespace BLL.Interfaces
     {
         Task<string> Login(User user);
         Task<bool> SendEmailResetPassword(User in_user);
+        Task<bool> ResetPassword(string in_email, string in_password);
     }
 }
