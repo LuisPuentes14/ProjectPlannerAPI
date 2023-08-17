@@ -1,5 +1,6 @@
 ﻿
 using API.Models.RequestModels;
+using API.Models.ResponseModels;
 using AutoMapper;
 using Entity;
 using System.Globalization;
@@ -12,6 +13,24 @@ namespace Api.Utilidades._AutoMapper
 
         public AutoMapperProfile()
         {
+
+            #region project
+            //Objeto origen /Objeto Destino  
+            CreateMap<Project, ResponseProject>().ForMember( 
+                output => output.ProjectStatus, 
+                input => input.MapFrom(origin => origin.ProjectStatus.ProjectStatusDescripcion)
+                ).ForMember(
+                output => output.ProjectCustomer,
+                input => input.MapFrom(origin => origin.Customer.CustomerName)
+                ).ForMember(
+                output => output.ProjectDirectBoss,
+                input => input.MapFrom(origin => origin.ProjectDirectBossUser.UserName)
+                ).ForMember(
+                output => output.ProjectImmediateBoss,
+                input => input.MapFrom(origin => origin.ProjectImmediateBossUser.UserName)
+                );          
+
+            #endregion
 
             #region ResetPassword
             //Objeto origen /Objeto Destino  

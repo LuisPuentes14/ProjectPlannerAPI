@@ -27,15 +27,15 @@ public partial class User
 
     public bool? UserFirstLogin { get; set; }
 
-    public virtual ICollection<Project> ProjectProjectDirectBossNavigations { get; set; } = new List<Project>();
+    public virtual ICollection<Project> ProjectProjectDirectBossUsers { get; set; } = new List<Project>();
 
-    public virtual ICollection<Project> ProjectProjectImmediateBossNavigations { get; set; } = new List<Project>();
+    public virtual ICollection<Project> ProjectProjectImmediateBossUsers { get; set; } = new List<Project>();
 
     public virtual ICollection<ProjectsUser> ProjectsUsers { get; set; } = new List<ProjectsUser>();
 
     public virtual ICollection<TasksUser> TasksUsers { get; set; } = new List<TasksUser>();
 
-    public virtual ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
+    public virtual UsersState UserState { get; set; } = null!;
 
-    public virtual UserState UserState { get; set; } = null!;
+    public virtual ICollection<UsersProfile> UsersProfiles { get; set; } = new List<UsersProfile>();
 }

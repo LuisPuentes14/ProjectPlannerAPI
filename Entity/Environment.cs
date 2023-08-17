@@ -9,5 +9,5 @@ public partial class Environment
 
     public string? EnvironmentName { get; set; }
 
-    public virtual ICollection<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
+    public virtual ICollection<ProjectsTask> ProjectsTasks { get; set; } = new List<ProjectsTask>();
 }

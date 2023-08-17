@@ -11,5 +11,5 @@ public partial class Profile
 
     public virtual ICollection<PermissionsProfilesWebModule> PermissionsProfilesWebModules { get; set; } = new List<PermissionsProfilesWebModule>();
 
-    public virtual ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
+    public virtual ICollection<UsersProfile> UsersProfiles { get; set; } = new List<UsersProfile>();
 }

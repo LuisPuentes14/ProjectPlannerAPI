@@ -31,6 +31,7 @@ namespace IOC
             services.AddScoped<IEmail, Email>(); 
             services.AddScoped<IJWT, JWT>();
             services.AddScoped<IRepositoryLogin, RepositoryLogin>();
+            services.AddScoped<IServiceProject, ServiceProject>();
 
 
         }

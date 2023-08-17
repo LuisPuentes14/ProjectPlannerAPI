@@ -7,25 +7,25 @@ public partial class Project
 {
     public int ProjectId { get; set; }
 
-    public int? ProjectStatus { get; set; }
+    public int? ProjectStatusId { get; set; }
 
     public string? ProjectTitle { get; set; }
 
-    public int? ProjectCustomer { get; set; }
+    public int? CustomerId { get; set; }
 
-    public int? ProjectDirectBoss { get; set; }
+    public int? ProjectDirectBossUserId { get; set; }
 
-    public int? ProjectImmediateBoss { get; set; }
+    public int? ProjectImmediateBossUserId { get; set; }
 
-    public virtual Customer? ProjectCustomerNavigation { get; set; }
+    public virtual Customer? Customer { get; set; }
 
-    public virtual User? ProjectDirectBossNavigation { get; set; }
+    public virtual User? ProjectDirectBossUser { get; set; }
 
-    public virtual User? ProjectImmediateBossNavigation { get; set; }
+    public virtual User? ProjectImmediateBossUser { get; set; }
 
-    public virtual ProjectStatus? ProjectStatusNavigation { get; set; }
+    public virtual ProjectsStatus? ProjectStatus { get; set; }
 
-    public virtual ICollection<ProjectTask> ProjectTasks { get; set; } = new List<ProjectTask>();
+    public virtual ICollection<ProjectsTask> ProjectsTasks { get; set; } = new List<ProjectsTask>();
 
     public virtual ICollection<ProjectsUser> ProjectsUsers { get; set; } = new List<ProjectsUser>();
 }

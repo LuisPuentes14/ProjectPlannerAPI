@@ -33,7 +33,7 @@ namespace DAL.Implementacion
 
         public async Task<List<int?>> GetUserProfile(User in_user) { 
             
-            return await _dbContext.UserProfiles.Where(
+            return await _dbContext.UsersProfiles.Where(
                 p => p.UserId == in_user.UserId).Select(p => p.ProfileId).ToListAsync();
         }
 

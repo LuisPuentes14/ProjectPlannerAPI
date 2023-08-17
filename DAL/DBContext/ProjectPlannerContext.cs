@@ -25,9 +25,9 @@ public partial class ProjectPlannerContext : DbContext
 
     public virtual DbSet<Project> Projects { get; set; }
 
-    public virtual DbSet<ProjectStatus> ProjectStatuses { get; set; }
+    public virtual DbSet<ProjectsStatus> ProjectsStatuses { get; set; }
 
-    public virtual DbSet<ProjectTask> ProjectTasks { get; set; }
+    public virtual DbSet<ProjectsTask> ProjectsTasks { get; set; }
 
     public virtual DbSet<ProjectsUser> ProjectsUsers { get; set; }
 
@@ -39,14 +39,15 @@ public partial class ProjectPlannerContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<UserProfile> UserProfiles { get; set; }
+    public virtual DbSet<UsersProfile> UsersProfiles { get; set; }
 
-    public virtual DbSet<UserState> UserStates { get; set; }
+    public virtual DbSet<UsersState> UsersStates { get; set; }
 
     public virtual DbSet<WebModule> WebModules { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     { }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -134,36 +135,36 @@ public partial class ProjectPlannerContext : DbContext
             entity.ToTable("projects", "projectplanner");
 
             entity.Property(e => e.ProjectId).HasColumnName("project_id");
-            entity.Property(e => e.ProjectCustomer).HasColumnName("project_customer");
-            entity.Property(e => e.ProjectDirectBoss).HasColumnName("project_direct_boss");
-            entity.Property(e => e.ProjectImmediateBoss).HasColumnName("project_immediate_boss");
-            entity.Property(e => e.ProjectStatus).HasColumnName("project_status");
+            entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+            entity.Property(e => e.ProjectDirectBossUserId).HasColumnName("project_direct_boss_user_id");
+            entity.Property(e => e.ProjectImmediateBossUserId).HasColumnName("project_immediate_boss_user_id");
+            entity.Property(e => e.ProjectStatusId).HasColumnName("project_status_id");
             entity.Property(e => e.ProjectTitle)
-                .HasColumnType("character varying")
+                .HasMaxLength(100)
                 .HasColumnName("project_title");
 
-            entity.HasOne(d => d.ProjectCustomerNavigation).WithMany(p => p.Projects)
-                .HasForeignKey(d => d.ProjectCustomer)
+            entity.HasOne(d => d.Customer).WithMany(p => p.Projects)
+                .HasForeignKey(d => d.CustomerId)
                 .HasConstraintName("projects_customers_fk");
 
-            entity.HasOne(d => d.ProjectDirectBossNavigation).WithMany(p => p.ProjectProjectDirectBossNavigations)
-                .HasForeignKey(d => d.ProjectDirectBoss)
+            entity.HasOne(d => d.ProjectDirectBossUser).WithMany(p => p.ProjectProjectDirectBossUsers)
+                .HasForeignKey(d => d.ProjectDirectBossUserId)
                 .HasConstraintName("projects_users_direct_boss_fk");
 
-            entity.HasOne(d => d.ProjectImmediateBossNavigation).WithMany(p => p.ProjectProjectImmediateBossNavigations)
-                .HasForeignKey(d => d.ProjectImmediateBoss)
+            entity.HasOne(d => d.ProjectImmediateBossUser).WithMany(p => p.ProjectProjectImmediateBossUsers)
+                .HasForeignKey(d => d.ProjectImmediateBossUserId)
                 .HasConstraintName("projects_users_immediate_boss_fk");
 
-            entity.HasOne(d => d.ProjectStatusNavigation).WithMany(p => p.Projects)
-                .HasForeignKey(d => d.ProjectStatus)
+            entity.HasOne(d => d.ProjectStatus).WithMany(p => p.Projects)
+                .HasForeignKey(d => d.ProjectStatusId)
                 .HasConstraintName("projects_project_status_fk");
         });
 
-        modelBuilder.Entity<ProjectStatus>(entity =>
+        modelBuilder.Entity<ProjectsStatus>(entity =>
         {
-            entity.HasKey(e => e.ProjectStatusId).HasName("project_status_pkey");
+            entity.HasKey(e => e.ProjectStatusId).HasName("projects_statuses_pkey");
 
-            entity.ToTable("project_status", "projectplanner");
+            entity.ToTable("projects_statuses", "projectplanner");
 
             entity.Property(e => e.ProjectStatusId).HasColumnName("project_status_id");
             entity.Property(e => e.ProjectStatusDescripcion)
@@ -171,34 +172,34 @@ public partial class ProjectPlannerContext : DbContext
                 .HasColumnName("project_status_descripcion");
         });
 
-        modelBuilder.Entity<ProjectTask>(entity =>
+        modelBuilder.Entity<ProjectsTask>(entity =>
         {
-            entity.HasKey(e => e.ProjectTasksId).HasName("project_tasks_pkey");
+            entity.HasKey(e => e.ProjectTaskId).HasName("projects_tasks_pkey");
 
-            entity.ToTable("project_tasks", "projectplanner");
+            entity.ToTable("projects_tasks", "projectplanner");
 
-            entity.Property(e => e.ProjectTasksId).HasColumnName("project_tasks_id");
+            entity.Property(e => e.ProjectTaskId).HasColumnName("project_task_id");
             entity.Property(e => e.EnvironmentId).HasColumnName("environment_id");
             entity.Property(e => e.ProjectId).HasColumnName("project_id");
-            entity.Property(e => e.ProjectTasks)
+            entity.Property(e => e.ProjectTask)
                 .HasMaxLength(300)
-                .HasColumnName("project_tasks");
-            entity.Property(e => e.ProjectTasksEndDate).HasColumnName("project_tasks_end_date");
-            entity.Property(e => e.ProjectTasksObservations)
+                .HasColumnName("project_task");
+            entity.Property(e => e.ProjectTaskEndDate).HasColumnName("project_task_end_date");
+            entity.Property(e => e.ProjectTaskObservation)
                 .HasMaxLength(300)
-                .HasColumnName("project_tasks_observations");
-            entity.Property(e => e.ProjectTasksStartDate).HasColumnName("project_tasks_start_date");
+                .HasColumnName("project_task_observation");
+            entity.Property(e => e.ProjectTaskStartDate).HasColumnName("project_task_start_date");
             entity.Property(e => e.TaskStatusId).HasColumnName("task_status_id");
 
-            entity.HasOne(d => d.Environment).WithMany(p => p.ProjectTasks)
+            entity.HasOne(d => d.Environment).WithMany(p => p.ProjectsTasks)
                 .HasForeignKey(d => d.EnvironmentId)
                 .HasConstraintName("environments_fk");
 
-            entity.HasOne(d => d.Project).WithMany(p => p.ProjectTasks)
+            entity.HasOne(d => d.Project).WithMany(p => p.ProjectsTasks)
                 .HasForeignKey(d => d.ProjectId)
                 .HasConstraintName("projects_fk");
 
-            entity.HasOne(d => d.TaskStatus).WithMany(p => p.ProjectTasks)
+            entity.HasOne(d => d.TaskStatus).WithMany(p => p.ProjectsTasks)
                 .HasForeignKey(d => d.TaskStatusId)
                 .HasConstraintName("tasks_statuses_fk");
         });
@@ -311,30 +312,30 @@ public partial class ProjectPlannerContext : DbContext
                 .HasConstraintName("tasks_fk");
         });
 
-        modelBuilder.Entity<UserProfile>(entity =>
+        modelBuilder.Entity<UsersProfile>(entity =>
         {
-            entity.HasKey(e => e.UserProfileId).HasName("user_profiles_pkey");
+            entity.HasKey(e => e.UserProfileId).HasName("users_profiles_pkey");
 
-            entity.ToTable("user_profiles", "projectplanner");
+            entity.ToTable("users_profiles", "projectplanner");
 
             entity.Property(e => e.UserProfileId).HasColumnName("user_profile_id");
             entity.Property(e => e.ProfileId).HasColumnName("profile_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.Profile).WithMany(p => p.UserProfiles)
+            entity.HasOne(d => d.Profile).WithMany(p => p.UsersProfiles)
                 .HasForeignKey(d => d.ProfileId)
                 .HasConstraintName("tasks_fk");
 
-            entity.HasOne(d => d.User).WithMany(p => p.UserProfiles)
+            entity.HasOne(d => d.User).WithMany(p => p.UsersProfiles)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("users_fk");
         });
 
-        modelBuilder.Entity<UserState>(entity =>
+        modelBuilder.Entity<UsersState>(entity =>
         {
-            entity.HasKey(e => e.UserStateId).HasName("user_states_pkey");
+            entity.HasKey(e => e.UserStateId).HasName("users_states_pkey");
 
-            entity.ToTable("user_states", "projectplanner");
+            entity.ToTable("users_states", "projectplanner");
 
             entity.Property(e => e.UserStateId).HasColumnName("user_state_id");
             entity.Property(e => e.UserStateName)

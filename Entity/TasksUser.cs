@@ -11,7 +11,7 @@ public partial class TasksUser
 
     public int? UserId { get; set; }
 
-    public virtual ProjectTask? Tasks { get; set; }
+    public virtual ProjectsTask? Tasks { get; set; }
 
     public virtual User? User { get; set; }
 }
