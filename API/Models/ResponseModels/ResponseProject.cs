@@ -1,4 +1,6 @@
-﻿namespace API.Models.ResponseModels
+﻿using Entity;
+
+namespace API.Models.ResponseModels
 {
     public class ResponseProject
     {
@@ -12,6 +14,8 @@
         public string? ProjectDirectBoss { get; set; }
         public int? ProjectImmediateBossUserId { get; set; }
         public string? ProjectImmediateBoss { get; set; }
+
+        public List<object> users { get; set; } = new List<object>() ;
 
     }
 }

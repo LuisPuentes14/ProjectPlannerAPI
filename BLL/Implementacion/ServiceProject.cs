@@ -20,12 +20,12 @@ namespace BLL.Implementacion
 
         public async Task<List<Project>> GetAll() {
 
-            IQueryable<Project> iProyect = await _IGenericRepository.Consultar();          
+            IQueryable<Project> iProyect = await _IGenericRepository.Consultar();         
 
-            return iProyect.Include(p => p.ProjectStatus)
+            return await iProyect.Include(p => p.ProjectStatus).Include(p => p.ProjectsUsers).ThenInclude(pu => pu.User)
                 .Include(p => p.Customer)
                 .Include(p => p.ProjectDirectBossUser)
-                .Include(p => p.ProjectImmediateBossUser).ToList();
+                .Include(p => p.ProjectImmediateBossUser).ToListAsync();
         }
 
 

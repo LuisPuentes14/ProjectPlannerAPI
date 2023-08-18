@@ -16,8 +16,8 @@ namespace Api.Utilidades._AutoMapper
 
             #region project
             //Objeto origen /Objeto Destino  
-            CreateMap<Project, ResponseProject>().ForMember( 
-                output => output.ProjectStatus, 
+            CreateMap<Project, ResponseProject>().ForMember(
+                output => output.ProjectStatus,
                 input => input.MapFrom(origin => origin.ProjectStatus.ProjectStatusDescripcion)
                 ).ForMember(
                 output => output.ProjectCustomer,
@@ -28,7 +28,14 @@ namespace Api.Utilidades._AutoMapper
                 ).ForMember(
                 output => output.ProjectImmediateBoss,
                 input => input.MapFrom(origin => origin.ProjectImmediateBossUser.UserName)
-                );          
+                ).ForMember(
+                output => output.users,
+                input => input.MapFrom(origin => origin.ProjectsUsers.Select(pu => new
+                {
+                    UserId = pu.User.UserId,
+                    UserName = pu.User.UserName
+                }).ToList())
+                );
 
             #endregion
 
