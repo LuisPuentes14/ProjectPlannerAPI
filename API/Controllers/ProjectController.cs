@@ -2,7 +2,6 @@
 using API.Models.ResponseModels;
 using AutoMapper;
 using BLL.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -21,14 +20,20 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("List")]
-        public async Task<IActionResult> GetAll() { 
-        
-            GenericResponse<ResponseProject> genericResponse = new GenericResponse<ResponseProject>();
-            List<ResponseProject> list = _mapper.Map<List<ResponseProject>>(await _serviceProject.GetAll());
+        public async Task<IActionResult> GetAll() {
 
-            return StatusCode(StatusCodes.Status200OK, new { data = list });
+            try
+            {
+                GenericResponse<ResponseProject> genericResponse = new GenericResponse<ResponseProject>();
+                List<ResponseProject> list = _mapper.Map<List<ResponseProject>>(await _serviceProject.GetAll());
 
+                return StatusCode(StatusCodes.Status200OK, new { data = list });
 
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }    
 
         }
     }
