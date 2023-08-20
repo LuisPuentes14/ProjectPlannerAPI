@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using BLL.Utilities.Interfaces;
 using Microsoft.Extensions.Options;
 using BLL.ModelsAppsettings;
+using Excepcion;
 
 namespace BLL.Utilities.Implementacion
 {
@@ -47,7 +48,7 @@ namespace BLL.Utilities.Implementacion
             }
             catch (Exception)
             {
-                throw new Exception("Correno no enviado.");
+                throw new GeneralExcepcion("Correno no enviado.");
             }
 
         }

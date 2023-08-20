@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using BLL.Utilities.Implementacion;
 using BLL.Utilities.Interfaces;
 using DAL.Interfaces;
-using DAL.Implementacion;
+using Excepcion;
 
 namespace BLL.Implementacion
 {
@@ -50,7 +50,7 @@ namespace BLL.Implementacion
 
             if (user == null)
             {
-                throw new Exception("Usuario no econtrado.");
+                throw new GeneralExcepcion("Usuario no encontrado.");
             }
 
             in_user.UserPassword = Encrypt.GetSHA256(in_user.UserPassword);
@@ -59,14 +59,14 @@ namespace BLL.Implementacion
 
             if (user == null)
             {
-                throw new Exception("Contraseña incorrecta.");
+                throw new GeneralExcepcion("Contraseña incorrecta.");
             }
 
             List<int?> userProfileIds = await _IRepositoryLogin.GetUserProfile(user);
 
             if (userProfileIds.Count == 0)
             {
-                throw new Exception("Perfiles no encontrados para este usuario.");
+                throw new GeneralExcepcion("Perfiles no encontrados para este usuario.");
             }
 
             List<string?> profiles = await _IRepositoryLogin.GetProfile(userProfileIds);
@@ -87,14 +87,14 @@ namespace BLL.Implementacion
 
             if (user == null)
             {
-                throw new Exception("Correo no valido.");
+                throw new GeneralExcepcion("Correo no valido.");
             }
 
             List<int?> userProfileIds =await _IRepositoryLogin.GetUserProfile(user);
 
             if (userProfileIds.Count == 0)
             {
-                throw new Exception("Perfiles no encontrados para este usuario.");
+                throw new GeneralExcepcion("Perfiles no encontrados para este usuario.");
             }
 
             List<string?> profiles = await _IRepositoryLogin.GetProfile(userProfileIds);
@@ -127,7 +127,7 @@ namespace BLL.Implementacion
            User user= await  _IGenericRepository.Obtener(u => u.UserEmail == in_email);
             if (user == null)
             {
-                throw new Exception("Usuario no encontrado");
+                throw new GeneralExcepcion("Usuario no encontrado");
             }
 
             user.UserPassword = Encrypt.GetSHA256(in_password);

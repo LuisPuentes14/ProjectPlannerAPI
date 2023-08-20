@@ -4,6 +4,7 @@ using API.Models.ResponseModels;
 using AutoMapper;
 using BLL.Interfaces;
 using Entity;
+using Excepcion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -42,11 +43,16 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status200OK, gResponse);
 
             }
-            catch (Exception ex)
+            catch (GeneralExcepcion ex)
             {
                 gResponse.Message = ex.Message;
                 return StatusCode(StatusCodes.Status200OK, gResponse);
             }
+            catch (Exception ex)
+            {              
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+           
         }
 
         [HttpPost]
@@ -64,10 +70,14 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status200OK, gResponse);
 
             }
-            catch (Exception ex)
+            catch (GeneralExcepcion ex)
             {
                 gResponse.Message = ex.Message;
                 return StatusCode(StatusCodes.Status200OK, gResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -90,10 +100,14 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status200OK, gResponse);
 
             }
-            catch (Exception ex)
+            catch (GeneralExcepcion ex)
             {
                 gResponse.Message = ex.Message;
                 return StatusCode(StatusCodes.Status200OK, gResponse);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
 

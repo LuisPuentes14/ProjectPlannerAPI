@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
     <ProjectReference Include="..\Entity\Entity.csproj" />
+    <ProjectReference Include="..\Excepcion\Excepcion.csproj" />
     <ProjectReference Include="..\IOC\IOC.csproj" />
   </ItemGroup>
 

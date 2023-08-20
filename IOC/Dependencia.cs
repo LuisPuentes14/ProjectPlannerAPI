@@ -15,16 +15,28 @@ namespace IOC
 {
     public static class Dependencia    {
 
+        private static IConfiguration _configuration;
+
+        public static void Initialize(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
 
         public static void InyectarDependencia(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddDbContext<ProjectPlannerContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"));
-            });
+                options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"), npgsqlOptions => {
+                    // Configuarcion de numero de intentos
+                    npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
+                    // Configuracion de tiempo de espera por consultas
+                    npgsqlOptions.CommandTimeout(Convert.ToInt32(Configuration.GetSection("DbContextOptions:ConnectionTimeout").Value));                    
+
+                });
+            });           
 
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
 
             // Segregación de interfaces           
             services.AddScoped<IServiceAuthentication, ServiceAuthentication>(); 
