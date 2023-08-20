@@ -8,6 +8,7 @@ using Excepcion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace API.Controllers
 {
@@ -16,12 +17,15 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ILogger<AuthenticationController> _logger;
         public readonly IServiceAuthentication _serviceLogin;
 
-        public AuthenticationController(IServiceAuthentication serviceLogin, IMapper mapper)
+        public AuthenticationController(ILogger<AuthenticationController> logger,IServiceAuthentication serviceLogin, IMapper mapper)
         {
+            _logger = logger;
             _serviceLogin = serviceLogin;
             _mapper = mapper;
+
         }
 
 
@@ -33,6 +37,8 @@ namespace API.Controllers
 
             try
             {
+                _logger.LogInformation("JSON RECIBIDO: " + JsonSerializer.Serialize(rMLogin));
+
                 string token = await _serviceLogin.Login(_mapper.Map<User>(rMLogin));
 
                 ResponseLogin responseLogin = new ResponseLogin() { Token = token };

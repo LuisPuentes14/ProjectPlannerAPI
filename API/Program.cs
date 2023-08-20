@@ -6,6 +6,8 @@ using IOC;
 using BLL.ModelsAppsettings;
 using Microsoft.Extensions.Configuration;
 using BLL.Utilities.Implementacion;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,22 @@ string MiCors = "MiCors";
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//Configuracion de log
+
+Log.Logger = new LoggerConfiguration()
+            //.MinimumLevel.Debug() // Establecer el nivel mínimo de registro (puedes ajustarlo según tus necesidades)
+            // .MinimumLevel.Override("Microsoft", LogEventLevel.Warning) // Ajustar niveles específicos
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning) // Ajustar niveles específicos
+            .Enrich.FromLogContext()
+            .WriteTo.File("logs/app-.log", rollingInterval: RollingInterval.Day) // Aquí especificamos la ruta y el nombre del archivo de registro
+            .CreateLogger();
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.AddSerilog(dispose: true); // Agregar Serilog como el proveedor de registro
+});
 
 
 //Se asigna parametros del appsettings.json en la clases de la
@@ -38,7 +56,8 @@ builder.Services.AddAuthentication(d =>
     d.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     d.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-}).AddJwtBearer(d => {
+}).AddJwtBearer(d =>
+{
 
     //d.RequireHttpsMetadata = false;
     //d.SaveToken = false;
@@ -50,7 +69,7 @@ builder.Services.AddAuthentication(d =>
         ValidIssuer = Issuer,
         ValidateAudience = true,
         ValidAudience = Audience,
-       // ValidateLifetime = true,
+        // ValidateLifetime = true,
     };
 });
 
@@ -62,7 +81,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-
+//implementacion de cors
 builder.Services.AddCors(options =>
 {
 
