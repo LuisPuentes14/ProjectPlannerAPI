@@ -31,7 +31,7 @@ public partial class User
 
     public virtual ICollection<Project> ProjectProjectImmediateBossUsers { get; set; } = new List<Project>();
 
-    public virtual ICollection<ProjectsUser> ProjectsUsers { get; set; } = new List<ProjectsUser>();
+    public virtual ICollection<ResponsiblesUsersProject> ResponsiblesUsersProjects { get; set; } = new List<ResponsiblesUsersProject>();
 
     public virtual ICollection<TasksUser> TasksUsers { get; set; } = new List<TasksUser>();
 

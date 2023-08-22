@@ -9,6 +9,7 @@ namespace BLL.Interfaces
 {
     public interface IServiceProject
     {
-       Task<List<Project>> GetAll();
+        Task<List<Project>> GetAll();
+        Task<bool> Edit(Project in_project);
     }
 }

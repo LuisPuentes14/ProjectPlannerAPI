@@ -14,8 +14,7 @@ namespace API.Models.ResponseModels
         public string? ProjectDirectBoss { get; set; }
         public int? ProjectImmediateBossUserId { get; set; }
         public string? ProjectImmediateBoss { get; set; }
-
-        public List<object> users { get; set; } = new List<object>() ;
+        public List<object> ResponsibleProject { get; set; } = new List<object>() ;
 
     }
 }

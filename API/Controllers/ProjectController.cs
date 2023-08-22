@@ -1,8 +1,10 @@
-﻿using API.Models.Response;
+﻿using API.Models.RequestModels;
+using API.Models.Response;
 using API.Models.ResponseModels;
 using AutoMapper;
 using BLL.Interfaces;
 using BLL.ModelsAppsettings;
+using Entity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -27,7 +29,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetAll() {
 
             try
-            {                
+            {               
 
                 GenericResponse<ResponseProject> genericResponse = new GenericResponse<ResponseProject>();
                 List<ResponseProject> list = _mapper.Map<List<ResponseProject>>(await _serviceProject.GetAll());
@@ -39,6 +41,30 @@ namespace API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }    
+
+        }
+
+        [HttpPost]
+        [Route("Edit")]
+        public async Task<IActionResult> Edit([FromBody] RequestProject requestProject)
+        {
+            try
+            {
+                GenericResponse<string> genericResponse = new GenericResponse<string>();
+
+                bool is_edit = await _serviceProject.Edit(_mapper.Map<Project>(requestProject));
+
+                genericResponse.Status = true;
+                genericResponse.Message = "proyecto editado";
+
+
+                return StatusCode(StatusCodes.Status200OK, genericResponse);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
         }
     }

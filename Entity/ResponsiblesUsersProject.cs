@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Entity;
 
-public partial class ProjectsUser
+public partial class ResponsiblesUsersProject
 {
-    public int ProjectUser { get; set; }
+    public int ResponsibleUserProjectId { get; set; }
 
     public int? ProjectId { get; set; }
 

@@ -29,7 +29,7 @@ public partial class ProjectPlannerContext : DbContext
 
     public virtual DbSet<ProjectsTask> ProjectsTasks { get; set; }
 
-    public virtual DbSet<ProjectsUser> ProjectsUsers { get; set; }
+    public virtual DbSet<ResponsiblesUsersProject> ResponsiblesUsersProjects { get; set; }
 
     public virtual DbSet<TasksStatus> TasksStatuses { get; set; }
 
@@ -45,9 +45,7 @@ public partial class ProjectPlannerContext : DbContext
 
     public virtual DbSet<WebModule> WebModules { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    { }
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -197,6 +195,7 @@ public partial class ProjectPlannerContext : DbContext
 
             entity.HasOne(d => d.Project).WithMany(p => p.ProjectsTasks)
                 .HasForeignKey(d => d.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("projects_fk");
 
             entity.HasOne(d => d.TaskStatus).WithMany(p => p.ProjectsTasks)
@@ -204,21 +203,22 @@ public partial class ProjectPlannerContext : DbContext
                 .HasConstraintName("tasks_statuses_fk");
         });
 
-        modelBuilder.Entity<ProjectsUser>(entity =>
+        modelBuilder.Entity<ResponsiblesUsersProject>(entity =>
         {
-            entity.HasKey(e => e.ProjectUser).HasName("projects_users_pkey");
+            entity.HasKey(e => e.ResponsibleUserProjectId).HasName("responsibles_users_projects_pkey");
 
-            entity.ToTable("projects_users", "projectplanner");
+            entity.ToTable("responsibles_users_projects", "projectplanner");
 
-            entity.Property(e => e.ProjectUser).HasColumnName("project_user");
+            entity.Property(e => e.ResponsibleUserProjectId).HasColumnName("responsible_user_project_id");
             entity.Property(e => e.ProjectId).HasColumnName("project_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.Project).WithMany(p => p.ProjectsUsers)
+            entity.HasOne(d => d.Project).WithMany(p => p.ResponsiblesUsersProjects)
                 .HasForeignKey(d => d.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("project_fk");
 
-            entity.HasOne(d => d.User).WithMany(p => p.ProjectsUsers)
+            entity.HasOne(d => d.User).WithMany(p => p.ResponsiblesUsersProjects)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("user_fk");
         });
@@ -247,6 +247,7 @@ public partial class ProjectPlannerContext : DbContext
 
             entity.HasOne(d => d.Tasks).WithMany(p => p.TasksUsers)
                 .HasForeignKey(d => d.TasksId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("tasks_fk");
 
             entity.HasOne(d => d.User).WithMany(p => p.TasksUsers)
