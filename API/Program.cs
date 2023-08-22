@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using BLL.Utilities.Implementacion;
 using Serilog;
 using Serilog.Events;
+using API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +21,13 @@ builder.Services.AddControllers();
 //Configuracion de log
 
 Log.Logger = new LoggerConfiguration()
-            //.MinimumLevel.Debug() // Establecer el nivel mínimo de registro (puedes ajustarlo según tus necesidades)
+           // .MinimumLevel.Debug() // Establecer el nivel mínimo de registro (puedes ajustarlo según tus necesidades)          
+            .MinimumLevel.Error() // Establecer el nivel mínimo de registro (puedes ajustarlo según tus necesidades)          
             // .MinimumLevel.Override("Microsoft", LogEventLevel.Warning) // Ajustar niveles específicos
-            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning) // Ajustar niveles específicos
+            //.MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning) // Ajustar niveles específicos
+            .MinimumLevel.Override("API.Controllers", LogEventLevel.Information) // Ajustar niveles específicos
             .Enrich.FromLogContext()
+            .WriteTo.Console()
             .WriteTo.File("logs/app-.log", rollingInterval: RollingInterval.Day) // Aquí especificamos la ruta y el nombre del archivo de registro
             .CreateLogger();
 
@@ -32,6 +36,8 @@ builder.Services.AddLogging(loggingBuilder =>
     loggingBuilder.ClearProviders();
     loggingBuilder.AddSerilog(dispose: true); // Agregar Serilog como el proveedor de registro
 });
+
+
 
 
 //Se asigna parametros del appsettings.json en la clases de la

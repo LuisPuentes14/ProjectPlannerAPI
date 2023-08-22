@@ -18,7 +18,7 @@ namespace API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<AuthenticationController> _logger;
-        public readonly IServiceAuthentication _serviceLogin;
+        private readonly IServiceAuthentication _serviceLogin;
 
         public AuthenticationController(ILogger<AuthenticationController> logger,IServiceAuthentication serviceLogin, IMapper mapper)
         {
@@ -37,7 +37,7 @@ namespace API.Controllers
 
             try
             {
-                _logger.LogInformation("JSON RECIBIDO: " + JsonSerializer.Serialize(rMLogin));
+                _logger.LogInformation("REQUEST: " + JsonSerializer.Serialize(rMLogin));
 
                 string token = await _serviceLogin.Login(_mapper.Map<User>(rMLogin));
 
@@ -46,16 +46,19 @@ namespace API.Controllers
                 gResponse.Status = true;
                 gResponse.Object = responseLogin;
 
-                return StatusCode(StatusCodes.Status200OK, gResponse);
+                _logger.LogInformation("RESPONSE: " + JsonSerializer.Serialize(gResponse));
+                return StatusCode(StatusCodes.Status200OK, gResponse);               
 
             }
             catch (GeneralExcepcion ex)
-            {
+            {                
                 gResponse.Message = ex.Message;
+                _logger.LogInformation("RESPONSE: " + JsonSerializer.Serialize(gResponse));
                 return StatusCode(StatusCodes.Status200OK, gResponse);
             }
             catch (Exception ex)
-            {              
+            {
+                _logger.LogError("RESPONSE: Error en el servidor.");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
            
