@@ -1,6 +1,7 @@
 ﻿using BLL.Interfaces;
 using DAL.Interfaces;
 using Entity;
+using Excepcion;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -35,9 +36,26 @@ namespace BLL.Implementacion
                 .ToListAsync(); 
         }
 
+        public async Task<bool> Add(Project in_project)
+        {
+            Project project = await _IGenericRepository.Crear(in_project);
+
+            if (project == null)
+            {
+                throw new GeneralExcepcion("No se creo proyecto.");
+
+            }
+            return true;
+        }
+
         public async Task<bool> Edit(Project in_project)
         {
             Project project = await _IGenericRepository.Obtener(p => p.ProjectId == in_project.ProjectId);
+
+            if (project == null)
+            {
+                throw new GeneralExcepcion("Proyecto no encontrado.");
+            }
 
             project.ProjectStatus = in_project.ProjectStatus;
             project.ProjectTitle = in_project.ProjectTitle;
@@ -47,6 +65,21 @@ namespace BLL.Implementacion
             project.ResponsiblesUsersProjects = in_project.ResponsiblesUsersProjects;
 
             bool is_edit = await _IGenericRepository.Editar(project);
+
+            return is_edit;
+
+        }
+
+        public async Task<bool> Delete(Project in_project)
+        {
+            Project project = await _IGenericRepository.Obtener(p => p.ProjectId == in_project.ProjectId);
+
+            if (project == null)
+            {
+                throw new GeneralExcepcion("Proyecto no encontrado.");
+            }           
+
+            bool is_edit = await _IGenericRepository.Eliminar(project);
 
             return is_edit;
 

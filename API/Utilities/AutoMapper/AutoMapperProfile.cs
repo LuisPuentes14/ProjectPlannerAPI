@@ -15,7 +15,8 @@ namespace Api.Utilidades._AutoMapper
         {
 
             #region project
-            //Objeto origen /Objeto Destino  
+            //Objeto origen /Objeto Destino
+            //Listar
             CreateMap<Project, ResponseProject>().ForMember(
                 output => output.ProjectStatus,
                 input => input.MapFrom(origin => origin.ProjectStatus.ProjectStatusDescripcion)
@@ -37,17 +38,31 @@ namespace Api.Utilidades._AutoMapper
                 }).ToList())
                 );
 
-            //Objeto origen /Objeto Destino  
-            CreateMap<RequestProject, Project>()
+            //Objeto origen /Objeto Destino
+            //Agregar
+            CreateMap<RequestProjectAdd, Project>()
            .ForMember(
                 output => output.ResponsiblesUsersProjects,
                 input => input.MapFrom(origin => origin.ResponsibleProject.Select(pu => new ResponsiblesUsersProject
-                {
-                    ProjectId = origin.ProjectId, // Usamos el ProjectId de RequestProject
+                {                    
                     UserId = pu.UserId
                 }))
                 );
 
+            //Objeto origen /Objeto Destino
+            //Editar
+            CreateMap<RequestProjectEdit, Project>()
+           .ForMember(
+                output => output.ResponsiblesUsersProjects,
+                input => input.MapFrom(origin => origin.ResponsibleProject.Select(pu => new ResponsiblesUsersProject
+                {                   
+                    UserId = pu.UserId
+                }))
+                );
+
+            //Objeto origen /Objeto Destino
+            //Eliminar
+            CreateMap<RequestProjectDelete, Project>();
             #endregion
 
             #region ResetPassword

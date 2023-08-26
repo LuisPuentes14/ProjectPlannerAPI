@@ -10,6 +10,10 @@ namespace BLL.Interfaces
     public interface IServiceProject
     {
         Task<List<Project>> GetAll();
+        Task<bool> Add(Project in_project);
         Task<bool> Edit(Project in_project);
+        Task<bool> Delete(Project in_project);
     }
+
+
 }

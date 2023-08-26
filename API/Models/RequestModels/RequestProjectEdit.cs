@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Models.RequestModels
 {
-    public class RequestProject
+    public class RequestProjectEdit
     {
-       
         public int ProjectId { get; set; }
-   
+
         public int? ProjectStatusId { get; set; }
        
         public string? ProjectTitle { get; set; }
